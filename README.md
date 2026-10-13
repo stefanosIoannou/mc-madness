@@ -66,6 +66,21 @@ The usual plain-Monte-Carlo standard-error formula is not printed for a
 stratified run because it does not account for the reduced, stratum-specific
 variance. Use `--trials` to compare empirical RMSE at matched total samples.
 
+## Run with MPI
+
+Each MPI rank receives its own JAX random-number stream by folding the rank
+into the base seed. The local inside-circle counts and sample counts are
+combined with an MPI `Allreduce` sum; rank 0 prints the global result.
+
+```bash
+uv sync
+uv run mpiexec -n 4 python pi_mpi.py 1000000 --seed 42
+```
+
+The `mpiexec` command must be provided by an installed MPI implementation
+such as Open MPI or MPICH. On macOS, if `mpiexec` is not already installed,
+install one with Homebrew before running the command.
+
 ## Functionality
 
 - Generates Monte Carlo samples with JAX's random-number generator.
