@@ -4,6 +4,40 @@ This project estimates π by sampling random points in the unit square and
 counting those inside the quarter unit circle. The estimate is
 `4 * inside / samples`.
 
+## Run on an AMD GPU with HIP
+
+`pi_hip.py` uses AMD's low-level `hip-python` bindings, HIPRTC for compiling
+the GPU kernels, and hipRAND for random-number generation. ROCm must be
+installed on a supported Linux system with a compatible AMD GPU before
+installing the Python package. ROCm is not supported on macOS, so the current
+Mac environment cannot run this backend directly.
+
+After installing ROCm, create a HIP environment and install the matching
+`hip-python` release. The package version should match the first three numbers
+of the installed ROCm version, for example `7.0.0` for ROCm 7.0.x:
+
+```bash
+uv venv .venv-hip
+source .venv-hip/bin/activate
+python -m pip install --upgrade pip
+uv sync --extra hip
+```
+
+If the automatic version is not compatible with the installed ROCm release,
+install the matching version explicitly. For ROCm `7.0.x`, for example:
+
+```bash
+python -m pip install "hip-python~=7.0.0.0"
+```
+
+Verify the GPU is visible before running:
+
+```bash
+python -c "from hip import hip; print(hip.hipGetDeviceCount())"
+python pi_hip.py 1000000 --seed 42
+python pi_hip.py --grid-size 1000 --seed 42
+```
+
 ## Run
 
 Create a virtual environment and install the project dependencies with `uv`:
