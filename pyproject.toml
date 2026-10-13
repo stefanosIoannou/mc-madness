@@ -1,0 +1,11 @@
+[project]
+name = "mc-problem"
+version = "0.1.0"
+description = "Monte Carlo estimation of pi with JAX"
+requires-python = ">=3.10"
+dependencies = [
+    "jax>=0.4.30",
+]
+
+[tool.uv]
+package = false
