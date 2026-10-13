@@ -5,6 +5,8 @@ description = "Monte Carlo estimation of pi with JAX"
 requires-python = ">=3.10"
 dependencies = [
     "jax>=0.4.30",
+    "mpi4py>=4.0.0",
+    "numpy>=1.26.0",
 ]
 
 [tool.uv]
